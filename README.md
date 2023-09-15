@@ -30,9 +30,9 @@ El Parking Bot es un bot de Telegram que te mantendrá informado sobre el estado
 Antes de comenzar, asegúrate de tener lo siguiente:
 
 - Una cuenta de Telegram 📱.
-- Token de un bot de Telegram 🤖.
+- Token de un bot de Telegram 🤖. Si no sabes como crear un bot de telegram puedes seguir [estos pasos](/pasos/CreateBotTelegram.md)
 - Un servidor MQTT funcionando. Puedes utilizar el que viene en el repositorio especificamente en el .env y utlizar [hiveMQ](https://www.hivemq.com/demos/websocket-client/) 
-- Python 3.8 o superior. sinolo tienes puedes descargarlo [aquí](https://www.python.org/downloads/) 
+- Python 3.8 o superior. Si no lo tienes puedes descargarlo [aquí](https://www.python.org/downloads/) 
 - Un módulo ESP32 🛠️.
 - Para probar el funcionamiento necesitaras 2 NRF24L01
 - Un arduino para poder hacer la simulacion de los parqueos
@@ -64,6 +64,7 @@ Antes de comenzar, asegúrate de tener lo siguiente:
    ```
 
 ## 🧩 Armado del Circuito
+
 El circuito para pruebas consta de la siguiente manera:
 - El enviador sera asi 
 ![enviador](/media/armado/enviador.png)
@@ -149,4 +150,3 @@ El circuito para pruebas consta de la siguiente manera:
 - 👥 @MarcosHT4
 - 👥 @Dylan-Chambi
 - 👥 @TDVCool123
-
