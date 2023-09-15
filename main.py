@@ -149,7 +149,7 @@ def enviar_mensaje_start(message):
         user_id_hash = hashlib.sha256(str(chat_id).encode()).hexdigest()  # Encriptar el user_id
         mensaje_log = f"Comando /start recibido por {username}, ID: {user_id_hash}, Hora y Fecha: {hora_fecha}"
         print(mensaje_log)
-        bot.reply_to(message, "¡Hola! Soy tu bot para controlar tu parqueo, te iré informando de los cambios que se realicen en los parqueos, puedes utilizar el comando /libres para poder saber que parqueos están libres.")
+        bot.reply_to(message, "¡Hola! Soy tu bot para controlar tu parqueo, te iré informando de los cambios que se realicen en los parqueos, puedes utilizar el comando /libres para poder saber que parqueos están libres y el comando /help para obtener ayuda.")
         
         if chat_id not in usuarios_start:
             usuarios_start.append(chat_id)
@@ -170,7 +170,7 @@ def enviar_mensaje_help(message):
         user_id_hash = hashlib.sha256(str(chat_id).encode()).hexdigest()  # Encriptar el user_id
         mensaje_log = f"Comando /help recibido por {username}, ID: {user_id_hash}, Hora y Fecha: {hora_fecha}"
         print(mensaje_log)
-        bot.reply_to(message, "Hola, soy tu bot para controlar tu parqueo, te iré informando de los cambios que se realicen en los parqueos, puedes utilizar el comando /libres para poder saber qué parqueos están libres.")
+        bot.reply_to(message, "Puedes utilizar el comando /libres para poder saber que parqueos están libres donde se te enviara un mensaje con todos los parqueos disponibles y una imagen para que puedas guiarte y /help para obtener ayuda de como utilizar el bot, recuerda que cada vez que un parqueo cambie de estado se te notificara por este medio con la especificación de que parqueo cambio de estado y una imagen del parqueo actualizada.")
     except Exception as e:
         print("Error al enviar el mensaje a Telegram:", str(e))
 
