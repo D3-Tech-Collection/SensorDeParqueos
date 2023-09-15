@@ -23,11 +23,6 @@ bot = telebot.TeleBot(bot_token)
 # Lista para almacenar chat_ids de usuarios que han enviado /start
 usuarios_start = []
 
-# Configuración MQTT
-mqtt_server = "3.77.251.252"
-mqtt_port = 1883
-subscribe_topic = "Undefined/parqueo/#"  # Reemplaza "numeroP" por el número de parqueo específico
-
 def cargar_usuarios_start():
     try:
         with open(csv_filename, mode='r') as file:
