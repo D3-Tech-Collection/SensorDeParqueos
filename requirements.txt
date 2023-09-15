@@ -1,0 +1,7 @@
+telebot
+paho-mqtt
+python-dotenv
+hashlib
+numpy
+pandas
+Pillow
