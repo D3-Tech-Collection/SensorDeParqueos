@@ -146,7 +146,7 @@ El circuito para pruebas consta de la siguiente manera:
 - ![](/imgs/demostracion.gif)
 
 ## 👥 Autores
-- 👥 @ElJoamy
-- 👥 @MarcosHT4
-- 👥 @Dylan-Chambi
-- 👥 @TDVCool123
+- 👥 [@ElJoamy](https://github.com/ElJoamy)
+- 👥 [@MarcosHT4](https://github.com/MarcosHT4)
+- 👥 [@Dylan-Chambi](https://github.com/Dylan-Chambi)
+- 👥 [@TDVCool123](https://github.com/TDVCool123)
