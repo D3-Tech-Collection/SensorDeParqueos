@@ -9,7 +9,7 @@
 - Paso 3: Escribe `/newbot` y haz clic en el botón `«Enviar»`.
   ![tele3](/media/telegrambot/tele3.png)
 
-- Paso 4: Escribe el nombre del bot y haz clic en el botón `«Enviar»`.
+- Paso 4: Escribe el nombre del bot, recuerda que debe terminar `bot` y haz clic en el botón `«Enviar»`.
   ![tele4](/media/telegrambot/tele4.jpg)
 
 - Paso 5: el botfather te enviará un mensaje donde podrás encontrar tu bot y además te dará tu token de acceso. Ese token es el que usaremos en el código y lo pegaremos en nuestro archivo [.env](.env.example) en la variable `TELEGRAM_BOT_TOKEN`.
