@@ -1,6 +1,6 @@
 # 🚗 Parking Bot - Telegram MQTT Notifier 🤖
 
-El Parking Bot es un bot de Telegram que te mantendrá informado sobre el estado de los parqueos en tiempo real utilizando MQTT. Puedes recibir notificaciones cuando un parqueo cambie de estado y consultar la disponibilidad de parqueos libres. Esto tambien utlziara lo que es un arduino para poder hacer la simulacion de los parqueos, 2 NRF24L01 para la comunicacion y un ESP32 para la comunicacion con el servidor MQTT.
+El Parking Bot es un bot de Telegram que te mantendrá informado sobre el estado de los parqueos en tiempo real utilizando MQTT. Puedes recibir notificaciones cuando un parqueo cambie de estado y consultar la disponibilidad de parqueos libres.
 
 ## 📝 Tabla de Contenidos
 
@@ -13,6 +13,8 @@ El Parking Bot es un bot de Telegram que te mantendrá informado sobre el estado
   - [Configuracion del backend en Visual Studio Code](#-configuracion-del-backend-en-visual-studio-code)
 - [Uso](#-uso)
 - [Comandos](#-comandos)
+- [Demostracion](#-demostracion)
+- [Autores](#-autores)
 
 
 ## 🚀 Características
@@ -139,4 +141,12 @@ El circuito para pruebas consta de la siguiente manera:
 - `/libres`: Consulta la disponibilidad de parqueos libres.
 - `/help`: Obtiene información sobre cómo utilizar el bot.
 
-## Demostracion
+## 💡 Demostracion 
+- ![](/imgs/demostracion.gif)
+
+## 👥 Autores
+- 👥 @ElJoamy
+- 👥 @MarcosHT4
+- 👥 @Dylan-Chambi
+- 👥 @TDVCool123
+
