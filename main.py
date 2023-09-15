@@ -19,6 +19,10 @@ mqtt_server = os.getenv("MQTT_SERVER")
 mqtt_port = int(os.getenv("MQTT_PORT"))
 subscribe_topic = os.getenv("SUBSCRIBE_TOPIC")
 
+# mqtt_server = "3.77.251.252"
+# mqtt_port = 1883
+# subscribe_topic = "Undefined/parqueo/#" 
+
 bot = telebot.TeleBot(bot_token)
 # Lista para almacenar chat_ids de usuarios que han enviado /start
 usuarios_start = []
