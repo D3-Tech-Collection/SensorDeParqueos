@@ -7,10 +7,8 @@ import hashlib
 from dotenv import load_dotenv
 from parking import *
 
-# Cargar las variables de entorno desde el archivo .env
 load_dotenv()
 
-# Leer las variables de entorno
 bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
 csv_filename = os.path.join("registros", os.getenv("CSV_FILENAME") + ".csv")
 csv_mensajes_filename = os.path.join("registros", os.getenv("CSV_MENSAJES_FILENAME") + ".csv")
@@ -19,7 +17,6 @@ mqtt_server = os.getenv("MQTT_SERVER")
 mqtt_port = int(os.getenv("MQTT_PORT"))
 subscribe_topic = os.getenv("SUBSCRIBE_TOPIC")
 
-# Asegurarse de que la carpeta "registros" exista
 if not os.path.exists("registros"):
     os.makedirs("registros")
 
@@ -36,14 +33,11 @@ def cargar_usuarios_start():
         pass
 
 def cargar_csv_mensajes():
-    # Verificar si el archivo CSV existe
     if not os.path.exists(csv_mensajes_filename):
-        # Si no existe, crear el archivo y agregar encabezados
         with open(csv_mensajes_filename, mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(["Numero de Parqueo", "Estado del Parqueo", "Hora y Fecha"])
 
-    # Leer el archivo CSV
     mensajes = []
     try:
         with open(csv_mensajes_filename, mode='r') as file:
@@ -56,20 +50,16 @@ def cargar_csv_mensajes():
     return mensajes
 
 def actualizar_estado_parqueo(parqueo, estado, hora_fecha):
-    # Cargar los mensajes existentes desde el archivo CSV
     mensajes = cargar_csv_mensajes()
 
-    # Buscar si ya existe una fila para el parqueo específico
     for mensaje in mensajes:
         if mensaje[0] == parqueo:
             mensaje[1] = estado  # Actualizar el estado del parqueo
             mensaje[2] = hora_fecha  # Actualizar la hora y fecha
             break
     else:
-        # Si no se encuentra, agregar una nueva fila
         mensajes.append([parqueo, estado, hora_fecha])
 
-    # Sobrescribir el archivo CSV con los mensajes actualizados
     with open(csv_mensajes_filename, mode='w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Numero de Parqueo", "Estado del Parqueo", "Hora y Fecha"])
@@ -86,13 +76,12 @@ def guardar_usuarios_start():
 
 def on_message(client, userdata, message):
     payload = message.payload.decode("utf-8")
-    topic = message.topic  # Obtener el topic del mensaje MQTT
+    topic = message.topic  
     try:
         # Intentar procesar el mensaje MQTT como un mensaje de Telegram
-        registrar_mensaje_mqtt(payload, topic)  # Llamar a la función para registrar el mensaje
+        registrar_mensaje_mqtt(payload, topic)  
         enviar_mensaje_a_usuarios(payload, topic)
     except AttributeError as e:
-        # Si no es un mensaje de Telegram, simplemente registra el mensaje MQTT
         registrar_mensaje_mqtt(payload, topic)
 
 client = mqtt.Client()
@@ -114,7 +103,6 @@ def enviar_mensaje_a_usuarios(mensaje, topic):
         numero_parqueo = topic.split("/")[-1]
 
         mensaje_log = f"El parqueo {numero_parqueo} esta {estado_parqueo}"
-         # Mostrar el mensaje en la consola junto con la hora y fecha
         hora_fecha = obtener_hora_y_fecha()
         mensaje_log_con_hora = f"{mensaje_log}, Hora y Fecha: {hora_fecha}"
         print(mensaje_log_con_hora)
@@ -122,7 +110,6 @@ def enviar_mensaje_a_usuarios(mensaje, topic):
         # Enviar solo el mensaje MQTT a todos los usuarios que han enviado /start
         for chat_id in usuarios_start:
             bot.send_message(chat_id, mensaje_log)
-            # enviar laimagen del parqueo
             bot.send_photo(chat_id, open('slotParking/parking_result.png', 'rb'))
 
     except Exception as e:
@@ -134,7 +121,6 @@ def registrar_mensaje_mqtt(mensaje, topic):
         # Extraer el número de parqueo del topic
         numero_parqueo = topic.split("/")[-1]
         
-        # Actualizar el estado del parqueo en el archivo CSV
         actualizar_estado_parqueo(numero_parqueo, mensaje, hora_fecha)
         
         mensaje_log = f"Mensaje MQTT recibido para el parqueo {numero_parqueo} registrado en el archivo CSV"
@@ -144,13 +130,12 @@ def registrar_mensaje_mqtt(mensaje, topic):
 
 def guardar_registro(username, user_id, comando_o_mensaje):
     hora_fecha = obtener_hora_y_fecha()
-    user_id_hash = hashlib.sha256(str(user_id).encode()).hexdigest()  # Encriptar el user_id
+    user_id_hash = hashlib.sha256(str(user_id).encode()).hexdigest() 
     with open(logs_csv_filename, mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([username, user_id, user_id_hash, comando_o_mensaje, hora_fecha])
         print(f"Registro guardado en logs.csv: {username}, {user_id}, {user_id_hash}, {comando_o_mensaje}, {hora_fecha}")
 
-# Manejador de comandos /start
 @bot.message_handler(commands=['start'])
 def enviar_mensaje_start(message):
     try:
@@ -166,14 +151,12 @@ def enviar_mensaje_start(message):
         print(mensaje_log)
         bot.reply_to(message, "¡Hola! Soy tu bot para controlar tu parqueo, te iré informando de los cambios que se realicen en los parqueos, puedes utilizar el comando /libres para poder saber que parqueos están libres.")
         
-        # Agregar el chat_id del usuario a la lista de usuarios que han enviado /start
         if chat_id not in usuarios_start:
             usuarios_start.append(chat_id)
             guardar_usuarios_start()
     except Exception as e:
         print("Error al enviar el mensaje a Telegram:", str(e))
 
-# Manejador de comandos /help
 @bot.message_handler(commands=['help'])
 def enviar_mensaje_help(message):
     try:
@@ -191,19 +174,14 @@ def enviar_mensaje_help(message):
     except Exception as e:
         print("Error al enviar el mensaje a Telegram:", str(e))
 
-# Manejador de comandos /libres
 @bot.message_handler(commands=['libres'])
 def enviar_parqueos_libres(message):
     try:
         chat_id = message.chat.id
         username = message.from_user.username
         comando_o_mensaje = "/libres"
-        
         guardar_registro(username, chat_id, comando_o_mensaje)
-        
-        # Leer el archivo CSV de mensajes
         mensajes = cargar_csv_mensajes()
-
         # Filtrar los parqueos libres (estado 0)
         parqueos_libres = [mensaje for mensaje in mensajes if mensaje[1] == "0"]
 
@@ -214,12 +192,9 @@ def enviar_parqueos_libres(message):
                 numero_parqueo, estado, hora_fecha = parqueo
                 mensaje_libres += f"Parqueo {numero_parqueo}: Libre\n"
 
-            # Enviar el mensaje de los parqueos libres al usuario que ejecutó el comando
             bot.send_message(chat_id, mensaje_libres)
-            # Enviar la imagen del parqueo
             bot.send_photo(chat_id, open('slotParking/parking_result.png', 'rb'))
 
-            # Registra en el log quién ha usado el comando /libres
             hora_fecha = obtener_hora_y_fecha()
             user_id_hash = hashlib.sha256(str(chat_id).encode()).hexdigest()  # Encriptar el user_id
             mensaje_log = f"Comando /libres utilizado por {username}, ID: {user_id_hash}, Hora y Fecha: {hora_fecha}"
@@ -235,7 +210,7 @@ def obtener_hora_y_fecha():
 
 def setup():
     cargar_usuarios_start()
-    cargar_csv_mensajes()  # Cargar el archivo CSV
+    cargar_csv_mensajes()  
     print("El bot se ha iniciado a las:", obtener_hora_y_fecha())
 
 if __name__ == "__main__":
